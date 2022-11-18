@@ -1,0 +1,13 @@
+include(default)
+[settings]
+arch=armv8
+os=Android
+build_type=Release
+compiler=clang
+compiler.libcxx=c++_static
+compiler.version=14
+os.api_level=30
+[tool_requires]
+android-ndk/r25
+[options]
+[env]

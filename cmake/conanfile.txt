@@ -1,0 +1,5 @@
+[generators]
+cmake_find_package
+virtualenv
+[tool_requires]
+android-ndk/r25
