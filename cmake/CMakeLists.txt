@@ -18,6 +18,22 @@ FetchContent_Declare(libcutils-ndk
 FetchContent_MakeAvailable(libcutils-ndk)
 FetchContent_GetProperties(libcutils-ndk)
 
+FetchContent_Declare(libutils-ndk
+                     GIT_REPOSITORY git@github.com:MaDeG/libutils-ndk.git
+                     GIT_TAG master
+                     GIT_SUBMODULES ""
+                     SOURCE_SUBDIR .)
+FetchContent_MakeAvailable(libutils-ndk)
+FetchContent_GetProperties(libutils-ndk)
+
+FetchContent_Declare(libsystem-ndk
+                     GIT_REPOSITORY git@github.com:MaDeG/libsystem-ndk.git
+                     GIT_TAG master
+                     GIT_SUBMODULES ""
+                     SOURCE_SUBDIR .)
+FetchContent_MakeAvailable(libsystem-ndk)
+FetchContent_GetProperties(libsystem-ndk)
+
 set(LIBLOG_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../)
 
 set(ANDROID_SOURCES ${LIBLOG_ROOT}/android-base/errno_restorer.h
@@ -44,12 +60,27 @@ set(LIBLOG_SOURCES ${LIBLOG_ROOT}/log_event_list.cpp
                    ${LIBLOG_ROOT}/logger_write.cpp
                    ${LIBLOG_ROOT}/logprint.cpp
                    ${LIBLOG_ROOT}/properties.cpp
+                   ${LIBLOG_ROOT}/event_tag_map.cpp
+                   ${LIBLOG_ROOT}/log_time.cpp
+                   ${LIBLOG_ROOT}/pmsg_reader.cpp
+                   ${LIBLOG_ROOT}/pmsg_writer.cpp
+                   ${LIBLOG_ROOT}/logd_reader.cpp
+                   ${LIBLOG_ROOT}/logd_writer.cpp
 )
 
 # Target name is not liblog in order to avoid confusion with the NDK integrated one
 add_library(liblog-ndk STATIC ${ANDROID_SOURCES} ${LIBLOG_SOURCES})
 target_include_directories(liblog-ndk PUBLIC ${LIBLOG_ROOT}/include)
-target_include_directories(liblog-ndk PRIVATE ${LIBLOG_ROOT} ${libcutils-ndk_SOURCE_DIR}/include)
+target_include_directories(liblog-ndk PRIVATE ${LIBLOG_ROOT}
+                                              ${libcutils-ndk_SOURCE_DIR}/include
+                                              ${libutils-ndk_SOURCE_DIR}/include
+                                              ${libsystem-ndk_SOURCE_DIR}/include
+)
+add_compile_definitions(ANDROID_DEBUGGABLE=1
+                        SNET_EVENT_LOG_TAG=1397638484
+                        LIBLOG_LOG_TAG=1006
+)
+
 
 set_property(TARGET liblog-ndk PROPERTY CXX_STANDARD 20)
 

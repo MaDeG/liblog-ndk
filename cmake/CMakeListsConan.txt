@@ -14,7 +14,7 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
 endif()
 
-set(LIBZIPARCHIVE_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../)
+set(LIBLOG_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../)
 
 # Require out-of-source builds
 file(TO_CMAKE_PATH "${PROJECT_BINARY_DIR}/CMakeLists.txt" LOC_PATH)
@@ -31,9 +31,9 @@ endif()
 include(${CMAKE_BINARY_DIR}/conan.cmake)
 
 conan_cmake_autodetect(settings)
-conan_cmake_install(PATH_OR_REFERENCE ${LIBZIPARCHIVE_ROOT}/cmake
-                    PROFILE_HOST ${LIBZIPARCHIVE_ROOT}/cmake/armv8.profile
-                    PROFILE_BUILD ${LIBZIPARCHIVE_ROOT}/cmake/build.profile
+conan_cmake_install(PATH_OR_REFERENCE ${LIBLOG_ROOT}/cmake
+                    PROFILE_HOST ${LIBLOG_ROOT}/cmake/armv8.profile
+                    PROFILE_BUILD ${LIBLOG_ROOT}/cmake/build.profile
                     BUILD missing)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_BINARY_DIR})
