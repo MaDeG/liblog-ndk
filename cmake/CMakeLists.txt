@@ -46,13 +46,13 @@ set(LIBLOG_SOURCES ${LIBLOG_ROOT}/log_event_list.cpp
                    ${LIBLOG_ROOT}/properties.cpp
 )
 
-add_library(liblog STATIC ${ANDROID_SOURCES} ${LIBLOG_SOURCES})
-target_include_directories(liblog PUBLIC ${LIBLOG_ROOT}/include)
-target_include_directories(liblog PRIVATE ${LIBLOG_ROOT} ${libcutils-ndk_SOURCE_DIR}/include)
-target_link_libraries(liblog log)
+# Target name is not liblog in order to avoid confusion with the NDK integrated one
+add_library(liblog-ndk STATIC ${ANDROID_SOURCES} ${LIBLOG_SOURCES})
+target_include_directories(liblog-ndk PUBLIC ${LIBLOG_ROOT}/include)
+target_include_directories(liblog-ndk PRIVATE ${LIBLOG_ROOT} ${libcutils-ndk_SOURCE_DIR}/include)
 
-set_property(TARGET liblog PROPERTY CXX_STANDARD 20)
+set_property(TARGET liblog-ndk PROPERTY CXX_STANDARD 20)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    target_compile_options(liblog PRIVATE $<BUILD_INTERFACE:-Wno-unknown-attributes>)
+    target_compile_options(liblog-ndk PRIVATE $<BUILD_INTERFACE:-Wno-unknown-attributes>)
 endif()
