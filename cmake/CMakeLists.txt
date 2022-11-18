@@ -20,21 +20,21 @@ FetchContent_GetProperties(libcutils-ndk)
 
 set(LIBLOG_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../)
 
-set(ANDROID_SOURCES ${LIBZIPARCHIVE_ROOT}/android-base/errno_restorer.h
-                    ${LIBZIPARCHIVE_ROOT}/android-base/file.cpp
-                    ${LIBZIPARCHIVE_ROOT}/android-base/file.h
-                    ${LIBZIPARCHIVE_ROOT}/android-base/log_main.h
-                    ${LIBZIPARCHIVE_ROOT}/android-base/logging.h
-                    ${LIBZIPARCHIVE_ROOT}/android-base/macros.h
-                    ${LIBZIPARCHIVE_ROOT}/android-base/off64_t.h
-                    ${LIBZIPARCHIVE_ROOT}/android-base/parseint.h
-                    ${LIBZIPARCHIVE_ROOT}/android-base/stringprintf.cpp
-                    ${LIBZIPARCHIVE_ROOT}/android-base/stringprintf.h
-                    ${LIBZIPARCHIVE_ROOT}/android-base/strings.cpp
-                    ${LIBZIPARCHIVE_ROOT}/android-base/strings.h
-                    ${LIBZIPARCHIVE_ROOT}/android-base/threads.h
-                    ${LIBZIPARCHIVE_ROOT}/android-base/unique_fd.h
-                    ${LIBZIPARCHIVE_ROOT}/android-base/utf8.h
+set(ANDROID_SOURCES ${LIBLOG_ROOT}/android-base/errno_restorer.h
+                    ${LIBLOG_ROOT}/android-base/file.cpp
+                    ${LIBLOG_ROOT}/android-base/file.h
+                    ${LIBLOG_ROOT}/android-base/log_main.h
+                    ${LIBLOG_ROOT}/android-base/logging.h
+                    ${LIBLOG_ROOT}/android-base/macros.h
+                    ${LIBLOG_ROOT}/android-base/off64_t.h
+                    ${LIBLOG_ROOT}/android-base/parseint.h
+                    ${LIBLOG_ROOT}/android-base/stringprintf.cpp
+                    ${LIBLOG_ROOT}/android-base/stringprintf.h
+                    ${LIBLOG_ROOT}/android-base/strings.cpp
+                    ${LIBLOG_ROOT}/android-base/strings.h
+                    ${LIBLOG_ROOT}/android-base/threads.h
+                    ${LIBLOG_ROOT}/android-base/unique_fd.h
+                    ${LIBLOG_ROOT}/android-base/utf8.h
 )
 
 set(LIBLOG_SOURCES ${LIBLOG_ROOT}/log_event_list.cpp
