@@ -1,5 +1,4 @@
 [generators]
-cmake_find_package
-virtualenv
+CMakeToolchain
 [tool_requires]
 android-ndk/r25

@@ -1,15 +1,30 @@
-#TODO: Switch to the more Conan 2.0 compliant Python way of operating it
+if (POLICY CMP0048)
+    cmake_policy(SET CMP0048 NEW)
+endif (POLICY CMP0048)
 
 cmake_minimum_required(VERSION 3.10)
 
-if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
-    include("./CMakeListsConan.txt")
+set(CMAKE_VERBOSE_MAKEFILE ON)
+
+# Require out-of-source builds
+file(TO_CMAKE_PATH "${PROJECT_BINARY_DIR}/CMakeLists.txt" LOC_PATH)
+if(EXISTS "${LOC_PATH}")
+    message(FATAL_ERROR "You cannot build in a source directory (or any directory with a CMakeLists.txt file). Please make a build subdirectory. Feel free to remove CMakeCache.txt and CMakeFiles.")
+endif()
+
+# Set a default build type if none was specified
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  message(STATUS "Setting build type to 'Release' as none was specified.")
+  set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
+  # Set the possible values of build type for cmake-gui
+  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
 endif()
 
 project(liblog LANGUAGES CXX)
 
 include(FetchContent)
 
+# Used as headers only library
 FetchContent_Declare(libcutils-ndk
                      GIT_REPOSITORY git@github.com:MaDeG/libcutils-ndk.git
                      GIT_TAG master
@@ -18,6 +33,7 @@ FetchContent_Declare(libcutils-ndk
 FetchContent_MakeAvailable(libcutils-ndk)
 FetchContent_GetProperties(libcutils-ndk)
 
+# Used as headers only library
 FetchContent_Declare(libutils-ndk
                      GIT_REPOSITORY git@github.com:MaDeG/libutils-ndk.git
                      GIT_TAG master
@@ -26,6 +42,7 @@ FetchContent_Declare(libutils-ndk
 FetchContent_MakeAvailable(libutils-ndk)
 FetchContent_GetProperties(libutils-ndk)
 
+# Used as headers only library
 FetchContent_Declare(libsystem-ndk
                      GIT_REPOSITORY git@github.com:MaDeG/libsystem-ndk.git
                      GIT_TAG master
@@ -68,22 +85,21 @@ set(LIBLOG_SOURCES ${LIBLOG_ROOT}/log_event_list.cpp
                    ${LIBLOG_ROOT}/logd_writer.cpp
 )
 
-# Target name is not liblog in order to avoid confusion with the NDK integrated one
-add_library(liblog-ndk STATIC ${ANDROID_SOURCES} ${LIBLOG_SOURCES})
-target_include_directories(liblog-ndk PUBLIC ${LIBLOG_ROOT}/include)
-target_include_directories(liblog-ndk PRIVATE ${LIBLOG_ROOT}
-                                              ${libcutils-ndk_SOURCE_DIR}/include
-                                              ${libutils-ndk_SOURCE_DIR}/include
-                                              ${libsystem-ndk_SOURCE_DIR}/include
+# Target name is not log in order to avoid confusion with the NDK integrated one
+add_library(log-ndk STATIC ${ANDROID_SOURCES} ${LIBLOG_SOURCES})
+target_include_directories(log-ndk PUBLIC ${LIBLOG_ROOT}/include)
+target_include_directories(log-ndk PRIVATE ${LIBLOG_ROOT}
+                                           ${libcutils-ndk_SOURCE_DIR}/include
+                                           ${libutils-ndk_SOURCE_DIR}/include
+                                           ${libsystem-ndk_SOURCE_DIR}/include
 )
-add_compile_definitions(ANDROID_DEBUGGABLE=1
-                        SNET_EVENT_LOG_TAG=1397638484
-                        LIBLOG_LOG_TAG=1006
+target_compile_definitions(log-ndk PUBLIC ANDROID_DEBUGGABLE=1
+                                          SNET_EVENT_LOG_TAG=1397638484
+                                          LIBLOG_LOG_TAG=1006
 )
 
-
-set_property(TARGET liblog-ndk PROPERTY CXX_STANDARD 20)
+set_property(TARGET log-ndk PROPERTY CXX_STANDARD 20)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    target_compile_options(liblog-ndk PRIVATE $<BUILD_INTERFACE:-Wno-unknown-attributes>)
+    target_compile_options(log-ndk PRIVATE $<BUILD_INTERFACE:-Wno-unknown-attributes>)
 endif()
