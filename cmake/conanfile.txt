@@ -1,4 +1,4 @@
 [generators]
 CMakeToolchain
 [tool_requires]
-android-ndk/r25
+android-ndk/r26d

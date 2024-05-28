@@ -26,7 +26,7 @@ include(FetchContent)
 
 # Used as headers only library
 FetchContent_Declare(libcutils-ndk
-                     GIT_REPOSITORY git@github.com:MaDeG/libcutils-ndk.git
+                     GIT_REPOSITORY https://github.com/MaDeG/libcutils-ndk.git
                      GIT_TAG master
                      GIT_SUBMODULES ""
                      SOURCE_SUBDIR .)
@@ -35,7 +35,7 @@ FetchContent_GetProperties(libcutils-ndk)
 
 # Used as headers only library
 FetchContent_Declare(libutils-ndk
-                     GIT_REPOSITORY git@github.com:MaDeG/libutils-ndk.git
+                     GIT_REPOSITORY https://github.com/MaDeG/libutils-ndk.git
                      GIT_TAG master
                      GIT_SUBMODULES ""
                      SOURCE_SUBDIR .)
@@ -44,7 +44,7 @@ FetchContent_GetProperties(libutils-ndk)
 
 # Used as headers only library
 FetchContent_Declare(libsystem-ndk
-                     GIT_REPOSITORY git@github.com:MaDeG/libsystem-ndk.git
+                     GIT_REPOSITORY https://github.com/MaDeG/libsystem-ndk.git
                      GIT_TAG master
                      GIT_SUBMODULES ""
                      SOURCE_SUBDIR .)
